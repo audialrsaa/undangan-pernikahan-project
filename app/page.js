@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { getGuests } from "../lib/guets";
+import { getGuest } from "../lib/guets";
 
 /* =========================================================
    DATA
@@ -51,30 +51,29 @@ export default function Home() {
   ========================================================= */
 
   useEffect(() => {
-    async function loadGuest() {
-      try {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("to-guest");
+  async function loadGuest() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("to-guest");
 
-        if (!id) return;
+      if (!id) return;
 
-        const guests = await getGuests();
-        const guest = guests.find((g) => String(g.id) === String(id));
+      const guest = await getGuest(id);
 
-        if (guest) {
-          setGuestName(guest.nama || "Tamu Undangan");
+      if (guest) {
+        setGuestName(guest.nama || "Tamu Undangan");
 
-          if (guest.sapaan) {
-            setSapaan(guest.sapaan);
-          }
+        if (guest.sapaan) {
+          setSapaan(guest.sapaan);
         }
-      } catch (err) {
-        console.error("Gagal memuat data tamu:", err);
       }
+    } catch (err) {
+      console.error("Gagal memuat data tamu:", err);
     }
+  }
 
-    loadGuest();
-  }, []);
+  loadGuest();
+}, []);
 
   /* =========================================================
      COUNTDOWN
