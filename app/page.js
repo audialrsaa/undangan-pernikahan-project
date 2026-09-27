@@ -54,7 +54,7 @@ export default function Home() {
     async function loadGuest() {
       try {
         const params = new URLSearchParams(window.location.search);
-        const id = params.get("to");
+        const id = params.get("to-guest");
 
         if (!id) return;
 
